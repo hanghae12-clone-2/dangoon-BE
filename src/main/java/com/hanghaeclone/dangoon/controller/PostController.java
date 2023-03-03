@@ -25,7 +25,7 @@ public class PostController {
     private final PostService postService;
     @GetMapping("/posts/{postId}")
     public ResponseDto<PostResponseDto> getPost(@PathVariable Long postId) {
-        return postService.getPost(postId);
+        return ResponseDto.success(postService.getPost(postId));
     }
 
     @GetMapping("/posts")
@@ -34,17 +34,17 @@ public class PostController {
                                                           @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
                                                           @RequestParam(required = false, defaultValue = "all") String location) {
 
-        return postService.getPostList(page-1, size, sortBy, location);
+        return ResponseDto.success(postService.getPostList(page-1, size, sortBy, location));
     }
 
     @PutMapping("/posts/{postId}")
     public ResponseDto<PostResponseDto> updatePost(@PathVariable Long postId, PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.updatePost(postId, requestDto, userDetails.getUser());
+        return ResponseDto.success(postService.updatePost(postId, requestDto, userDetails.getUser()));
     }
 
     @DeleteMapping("/posts/{postId}")
     public ResponseDto<String> updatePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.deletePost(postId, userDetails.getUser());
+        return ResponseDto.success(postService.deletePost(postId, userDetails.getUser()));
     }
 
     @GetMapping("/search/posts")
@@ -53,10 +53,9 @@ public class PostController {
                                                           @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
                                                           @RequestParam(required = false) String keyword) {
 
-        return postService.searchPosts(page-1, size, sortBy, keyword);
+        return ResponseDto.success(postService.searchPosts(page-1, size, sortBy, keyword));
     }
 
-    private final PostService postService;
 
     @PostMapping("/posts")
     public ResponseDto<PostResponseDto> createPost(@RequestBody PostRequestDto postRequestDto,

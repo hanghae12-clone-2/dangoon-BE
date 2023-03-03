@@ -30,15 +30,15 @@ public class PostService {
 
         postRepository.save(post);
 
-        return new PostResponseDto(post);
+        return PostResponseDto.of(post);
     }
 
-    public ResponseDto<PostResponseDto> getPost(Long id) {
+    public PostResponseDto getPost(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("게시글 없음"));
-        return ResponseDto.success(PostResponseDto.of(post));
+        return PostResponseDto.of(post);
     }
 
-    public ResponseDto<List<PostResponseDto>> getPostList(int page, int size, String sortBy, String location) {
+    public List<PostResponseDto> getPostList(int page, int size, String sortBy, String location) {
         Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Post> postPage;
@@ -55,10 +55,10 @@ public class PostService {
             dtoList.add(PostResponseDto.of(post));
         }
 
-        return ResponseDto.success(dtoList);
+        return dtoList;
     }
 
-    public ResponseDto<List<PostResponseDto>> searchPosts(int page, int size, String sortBy, String keyword) {
+    public List<PostResponseDto> searchPosts(int page, int size, String sortBy, String keyword) {
 
         Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
@@ -72,28 +72,28 @@ public class PostService {
             dtoList.add(PostResponseDto.of(post));
         }
 
-        return ResponseDto.success(dtoList);
+        return dtoList;
 
     }
 
     @Transactional
-    public ResponseDto<PostResponseDto> updatePost(Long postId, PostRequestDto requestDto, User user) {
+    public PostResponseDto updatePost(Long postId, PostRequestDto requestDto, User user) {
 
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글 없음"));
         if(user.getUsername().equals(post.getUser().getUsername())) {
             post.update(requestDto);
-            return ResponseDto.success(PostResponseDto.of(post));
+            return PostResponseDto.of(post);
         }else {
             throw new IllegalArgumentException("유저 불일치");
         }
 
     }
 
-    public ResponseDto<String> deletePost(Long postId, User user) {
+    public String deletePost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글 없음"));
         if(user.getUsername().equals(post.getUser().getUsername())) {
             postRepository.deleteById(postId);
-            return ResponseDto.success("삭제 완료");
+            return "삭제 완료";
         }else {
             throw new IllegalArgumentException("유저 불일치");
         }

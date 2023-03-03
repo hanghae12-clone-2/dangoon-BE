@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -61,11 +60,11 @@ public class UserService {
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername()));
     }
 
-    public ResponseDto<UserResponseDto> getUser(UserDetailsImpl userDetails) {
+    public UserResponseDto getUser(UserDetailsImpl userDetails) {
         User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
         );
 
-        return ResponseDto.success(new UserResponseDto(user));
+        return new UserResponseDto(user);
     }
 }

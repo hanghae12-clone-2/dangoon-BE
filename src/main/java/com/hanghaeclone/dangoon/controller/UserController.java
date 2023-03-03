@@ -6,7 +6,6 @@ import com.hanghaeclone.dangoon.dto.LoginRequestDto;
 import com.hanghaeclone.dangoon.dto.ResponseDto;
 import com.hanghaeclone.dangoon.dto.SignupRequestDto;
 import com.hanghaeclone.dangoon.dto.UserResponseDto;
-import com.hanghaeclone.dangoon.entity.User;
 import com.hanghaeclone.dangoon.security.UserDetailsImpl;
 import com.hanghaeclone.dangoon.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class UserController {
 
     @GetMapping("/users/mypage")
     public ResponseDto<UserResponseDto> getUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return userService.getUser(userDetails);
+        return ResponseDto.success(userService.getUser(userDetails));
     }
 
 }

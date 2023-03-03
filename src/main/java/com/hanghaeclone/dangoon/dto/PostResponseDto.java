@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostResponseDto {
 
-    private Long id;
+    private Long postid;
     private String title;
     private String content;
     private int price;
@@ -24,7 +24,7 @@ public class PostResponseDto {
 
     public static PostResponseDto of(Post post) {
         return PostResponseDto.builder()
-                .id(post.getId())
+                .postid(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .price(post.getPrice())
@@ -34,16 +34,4 @@ public class PostResponseDto {
                 .createdAt(post.getCreatedAt().toString())
                 .build();
     }
-
-    public PostResponseDto(Post post) {
-        this.postid = post.getId();
-        this.title = post.getTitle();
-        this.content = post.getContent();
-        this.price = post.getPrice();
-        this.nickName = post.getUser().getNickName();
-        this.wishCount = post.getWishCount();
-        this.location = post.getLocation();
-        this.createdAt = post.getCreatedAt();
-    }
-
 }

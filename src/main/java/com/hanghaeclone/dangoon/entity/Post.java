@@ -1,8 +1,12 @@
 package com.hanghaeclone.dangoon.entity;
 
+import com.hanghaeclone.dangoon.dto.PostRequestDto;
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class Post extends TimeStamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +31,9 @@ public class Post extends TimeStamped{
     private User user;
 
 
+    public void update(PostRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.price = requestDto.getPrice();
+    }
 }

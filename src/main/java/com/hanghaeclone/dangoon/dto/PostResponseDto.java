@@ -1,32 +1,38 @@
 package com.hanghaeclone.dangoon.dto;
 
 import com.hanghaeclone.dangoon.entity.Post;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
+@Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostResponseDto {
-    private Long postid;
+
+    private Long id;
     private String title;
     private String content;
     private int price;
-    private String nickName;
+    private String nickname;
     private int wishCount;
     private String location;
-    private LocalDateTime createdAt;
 
-    public PostResponseDto(Long postid, String title, String content, int price, String nickName,
-                           int wishCount, String location, LocalDateTime createdAt) {
-        this.postid = postid;
-        this.title = title;
-        this.content = content;
-        this.price = price;
-        this.nickName = nickName;
-        this.wishCount = wishCount;
-        this.location = location;
-        this.createdAt = createdAt;
+    private String createdAt;
+
+    public static PostResponseDto of(Post post) {
+        return PostResponseDto.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .price(post.getPrice())
+                .nickname(post.getUser().getNickName())
+                .wishCount(post.getWishCount())
+                .location(post.getLocation())
+                .createdAt(post.getCreatedAt().toString())
+                .build();
     }
 
     public PostResponseDto(Post post) {
@@ -39,4 +45,5 @@ public class PostResponseDto {
         this.location = post.getLocation();
         this.createdAt = post.getCreatedAt();
     }
+
 }

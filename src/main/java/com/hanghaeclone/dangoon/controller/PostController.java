@@ -8,6 +8,12 @@ import com.hanghaeclone.dangoon.service.PostService;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +54,14 @@ public class PostController {
                                                           @RequestParam(required = false) String keyword) {
 
         return postService.searchPosts(page-1, size, sortBy, keyword);
+    }
+
+    private final PostService postService;
+
+    @PostMapping("/posts")
+    public ResponseDto<PostResponseDto> createPost(@RequestBody PostRequestDto postRequestDto,
+                                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseDto.success(postService.createPost(postRequestDto, userDetails.getUser()));
     }
 
 }

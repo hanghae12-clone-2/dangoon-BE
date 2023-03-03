@@ -23,6 +23,16 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+
+    public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
+
+        Post post = new Post(postRequestDto, user);
+
+        postRepository.save(post);
+
+        return new PostResponseDto(post);
+    }
+
     public ResponseDto<PostResponseDto> getPost(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("게시글 없음"));
         return ResponseDto.success(PostResponseDto.of(post));

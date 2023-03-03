@@ -35,4 +35,15 @@ public class PostResponseDto {
                 .build();
     }
 
+    public PostResponseDto(Post post) {
+        this.postid = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.price = post.getPrice();
+        this.nickName = post.getUser().getNickName();
+        this.wishCount = post.getWishCount();
+        this.location = post.getLocation();
+        this.createdAt = post.getCreatedAt();
+    }
+
 }

@@ -14,13 +14,13 @@ public class TemperatureController {
 
     private final TemperatureService temperatureService;
 
-//    @PostMapping("/like/{postId}")
-//    public ResponseDto<String> likeUser(@PathVariable Long postId, @RequestBody String type, @AuthenticationPrincipal UserDetailsImpl userDetails){
-//        return ResponseDto.success(temperatureService.likeUser(postId, type, userDetails.getUser()));
-//    }
+    @PostMapping("/like/{postId}")
+    public ResponseDto<String> likeUser(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return ResponseDto.success(temperatureService.likeUser(postId, userDetails.getUser()));
+    }
 
-//    @PostMapping("/hate/{postId}")
-//    public ResponseDto<String> hateUser(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-//        return ResponseDto.success(temperatureService.hateUser(postId, userDetails.getUser()));
-//    }
+    @PostMapping("/hate/{postId}")
+    public ResponseDto<String> hateUser(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return ResponseDto.success(temperatureService.hateUser(postId, userDetails.getUser()));
+    }
 }

@@ -31,4 +31,12 @@ public class Temperature {
         this.user = user;
         this.status = status;
     }
+
+    public void updateLike() {
+        this.status = "like";
+    }
+
+    public void updateHate() {
+        this.status = "hate";
+    }
 }

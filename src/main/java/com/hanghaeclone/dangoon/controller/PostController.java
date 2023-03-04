@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -61,9 +62,10 @@ public class PostController {
 
 
     @PostMapping("/posts")
-    public ResponseDto<PostResponseDto> createPost(@RequestBody PostRequestDto postRequestDto,
+    public ResponseDto<PostResponseDto> createPost(@RequestPart PostRequestDto postRequestDto,
+                                                   @RequestPart List<MultipartFile> multipartFiles,
                                                    @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return ResponseDto.success(postService.createPost(postRequestDto, userDetails.getUser()));
+        return ResponseDto.success(postService.createPost(postRequestDto, multipartFiles, userDetails.getUser()));
     }
 
     @PostMapping("/wishes/{postId}")

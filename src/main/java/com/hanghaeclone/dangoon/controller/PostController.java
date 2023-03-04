@@ -63,4 +63,9 @@ public class PostController {
         return ResponseDto.success(postService.createPost(postRequestDto, userDetails.getUser()));
     }
 
+    @PostMapping("/wishes/{postId}")
+    public ResponseDto<String> addWish(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return ResponseDto.success(postService.addWish(postId, userDetails.getUser()));
+    }
+
 }

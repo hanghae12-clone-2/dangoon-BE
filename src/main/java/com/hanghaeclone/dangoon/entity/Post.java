@@ -46,4 +46,12 @@ public class Post extends TimeStamped{
         this.content = requestDto.getContent();
         this.price = requestDto.getPrice();
     }
+
+    public void subWishCount(){
+        this.wishCount--;
+    }
+
+    public void addWishCount(){
+        this.wishCount++;
+    }
 }

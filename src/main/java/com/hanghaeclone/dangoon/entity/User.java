@@ -34,4 +34,18 @@ public class User {
         this.password = password;
         this.nickName = nickName;
     }
+
+    public void subTemperature(){
+        this.temperature -= 0.4;
+    }
+    public void cancelSubTempearture(){
+        this.temperature += 0.4;
+    }
+
+    public void addTempearture(){
+        this.temperature += 0.7;
+    }
+    public void cancelAddTempearture(){
+        this.temperature -= 0.7;
+    }
 }

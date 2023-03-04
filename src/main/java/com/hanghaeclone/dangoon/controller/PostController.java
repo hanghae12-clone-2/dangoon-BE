@@ -24,17 +24,18 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     @GetMapping("/posts/{postId}")
-    public ResponseDto<PostResponseDto> getPost(@PathVariable Long postId) {
-        return ResponseDto.success(postService.getPost(postId));
+    public ResponseDto<PostResponseDto> getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseDto.success(postService.getPost(postId, userDetails));
     }
 
     @GetMapping("/posts")
     public ResponseDto<List<PostResponseDto>> getPostList(@RequestParam int page,
                                                           @RequestParam int size,
                                                           @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-                                                          @RequestParam(required = false, defaultValue = "all") String location) {
+                                                          @RequestParam(required = false, defaultValue = "all") String location,
+                                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return ResponseDto.success(postService.getPostList(page-1, size, sortBy, location));
+        return ResponseDto.success(postService.getPostList(page-1, size, sortBy, location, userDetails));
     }
 
     @PutMapping("/posts/{postId}")
@@ -51,9 +52,11 @@ public class PostController {
     public ResponseDto<List<PostResponseDto>> searchPosts(@RequestParam int page,
                                                           @RequestParam int size,
                                                           @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-                                                          @RequestParam(required = false) String keyword) {
+                                                          @RequestParam(required = false) String keyword,
+                                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return ResponseDto.success(postService.searchPosts(page-1, size, sortBy, keyword));
+
+        return ResponseDto.success(postService.searchPosts(page-1, size, sortBy, keyword, userDetails));
     }
 
 

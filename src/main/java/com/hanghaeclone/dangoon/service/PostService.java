@@ -38,12 +38,19 @@ public class PostService {
         return PostResponseDto.of(post);
     }
 
-    public PostResponseDto getPost(Long id) {
+    public PostResponseDto getPost(Long id, UserDetailsImpl userDetails) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("게시글 없음"));
-        return PostResponseDto.of(post);
+        PostResponseDto dto = PostResponseDto.of(post);
+        if(userDetails != null) { //로그인 했을때 관심상품 여부 set
+            if(wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
+                dto.wish();
+            }
+        }
+
+        return dto;
     }
 
-    public List<PostResponseDto> getPostList(int page, int size, String sortBy, String location) {
+    public List<PostResponseDto> getPostList(int page, int size, String sortBy, String location, UserDetailsImpl userDetails) {
         Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Post> postPage;
@@ -57,13 +64,19 @@ public class PostService {
         List<PostResponseDto> dtoList = new ArrayList<>();
 
         for (Post post : postPage) {
-            dtoList.add(PostResponseDto.of(post));
+            PostResponseDto dto = PostResponseDto.of(post);
+            if(userDetails != null) { //로그인 했을때 관심상품 여부 set
+                if(wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
+                    dto.wish();
+                }
+            }
+            dtoList.add(dto);
         }
 
         return dtoList;
     }
 
-    public List<PostResponseDto> searchPosts(int page, int size, String sortBy, String keyword) {
+    public List<PostResponseDto> searchPosts(int page, int size, String sortBy, String keyword, UserDetailsImpl userDetails) {
 
         Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
@@ -74,7 +87,13 @@ public class PostService {
         List<PostResponseDto> dtoList = new ArrayList<>();
 
         for (Post post : postPage) {
-            dtoList.add(PostResponseDto.of(post));
+            PostResponseDto dto = PostResponseDto.of(post);
+            if(userDetails != null) { //로그인 했을때 관심상품 여부 set
+                if(wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
+                    dto.wish();
+                }
+            }
+            dtoList.add(dto);
         }
 
         return dtoList;

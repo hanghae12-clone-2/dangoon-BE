@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.bytebuddy.implementation.bind.annotation.Default;
 
 @Builder
 @Getter
@@ -18,6 +19,7 @@ public class PostResponseDto {
     private int price;
     private String nickname;
     private int wishCount;
+    private Boolean isWish;
     private String location;
 
     private String createdAt;
@@ -29,9 +31,16 @@ public class PostResponseDto {
                 .content(post.getContent())
                 .price(post.getPrice())
                 .nickname(post.getUser().getNickName())
+                .isWish(false)
                 .wishCount(post.getWishCount())
                 .location(post.getLocation())
                 .createdAt(post.getCreatedAt().toString())
                 .build();
     }
+
+    public void wish() {
+        this.isWish = true;
+    }
+
+
 }

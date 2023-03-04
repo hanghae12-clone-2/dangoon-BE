@@ -1,7 +1,7 @@
-package com.hanghaeclone.dangoon.service;
+package com.hanghaeclone.dangoon.chat.service;
 
 
-import com.hanghaeclone.dangoon.model.ChatRoom;
+import com.hanghaeclone.dangoon.chat.model.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

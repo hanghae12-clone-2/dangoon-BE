@@ -1,4 +1,4 @@
-package com.hanghaeclone.dangoon.config;
+package com.hanghaeclone.dangoon.chat.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

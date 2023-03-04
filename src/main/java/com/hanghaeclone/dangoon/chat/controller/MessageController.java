@@ -1,7 +1,7 @@
-package com.hanghaeclone.dangoon.controller;
+package com.hanghaeclone.dangoon.chat.controller;
 
 
-import com.hanghaeclone.dangoon.model.ChatMessage;
+import com.hanghaeclone.dangoon.chat.model.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;

@@ -1,4 +1,4 @@
-package com.hanghaeclone.dangoon.model;
+package com.hanghaeclone.dangoon.chat.model;
 
 
 import lombok.AllArgsConstructor;

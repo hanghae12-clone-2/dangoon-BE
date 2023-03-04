@@ -5,8 +5,11 @@ import com.hanghaeclone.dangoon.dto.PostResponseDto;
 import com.hanghaeclone.dangoon.dto.ResponseDto;
 import com.hanghaeclone.dangoon.entity.Post;
 import com.hanghaeclone.dangoon.entity.User;
+import com.hanghaeclone.dangoon.entity.Wish;
 import com.hanghaeclone.dangoon.repository.PostRepository;
 import com.hanghaeclone.dangoon.repository.UserRepository;
+import com.hanghaeclone.dangoon.repository.WishRepository;
+import com.hanghaeclone.dangoon.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,12 +20,14 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final WishRepository wishRepository;
 
     public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
 
@@ -89,6 +94,7 @@ public class PostService {
 
     }
 
+    @Transactional
     public String deletePost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글 없음"));
         if(user.getUsername().equals(post.getUser().getUsername())) {
@@ -97,5 +103,26 @@ public class PostService {
         }else {
             throw new IllegalArgumentException("유저 불일치");
         }
+    }
+
+    @Transactional
+    public String addWish(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("없는 게시글입니다.")
+        );
+
+        Optional<Wish> wish = wishRepository.findByUserAndPost(user, post);
+        if (wish.isPresent()){
+            wishRepository.delete(wish.get());
+            post.subWishCount();
+            return ("관심 상품 취소");
+        }
+
+        wishRepository.save(new Wish(post, user));
+        post.addWishCount();
+        return ("관심 상품 등록");
+
+
+
     }
 }

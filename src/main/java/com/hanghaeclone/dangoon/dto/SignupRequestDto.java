@@ -16,6 +16,4 @@ public class SignupRequestDto {
 
     private String nickName;
 
-    private float temperature;
-
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Builder
 @Getter
 @NoArgsConstructor
@@ -21,6 +23,7 @@ public class PostResponseDto {
     private String location;
 
     private String createdAt;
+    private List<String> imageUrlList;
 
     public static PostResponseDto of(Post post) {
         return PostResponseDto.builder()
@@ -32,6 +35,7 @@ public class PostResponseDto {
                 .wishCount(post.getWishCount())
                 .location(post.getLocation())
                 .createdAt(post.getCreatedAt().toString())
+                .imageUrlList(post.getImages().stream().map(image -> image.getImageUrl()).toList())
                 .build();
     }
 }

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,6 +34,9 @@ public class Post extends TimeStamped{
     @ManyToOne
     private User user;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images = new ArrayList<>();
+
     public Post(PostRequestDto postRequestDto, User user) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
@@ -53,5 +58,9 @@ public class Post extends TimeStamped{
 
     public void addWishCount(){
         this.wishCount++;
+    }
+
+    public void addImage(Image image) {
+        images.add(image);
     }
 }

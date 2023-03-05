@@ -4,6 +4,7 @@ package com.hanghaeclone.dangoon.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -18,8 +19,8 @@ public class ResponseDto<T> {
         return new ResponseDto<>(200, result);
     }
 
-    public static <T> ResponseDto<T> fail() {
-        return new ResponseDto<>(400, null);
+    public static <T> ResponseDto<T> fail(HttpStatus httpStatus, T result) {
+        return new ResponseDto<>(httpStatus.value(), result);
     }
 
     @Getter

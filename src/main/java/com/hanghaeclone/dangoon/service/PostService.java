@@ -3,21 +3,26 @@ package com.hanghaeclone.dangoon.service;
 import com.hanghaeclone.dangoon.dto.PostRequestDto;
 import com.hanghaeclone.dangoon.dto.PostResponseDto;
 import com.hanghaeclone.dangoon.dto.ResponseDto;
+import com.hanghaeclone.dangoon.entity.Image;
 import com.hanghaeclone.dangoon.entity.Post;
 import com.hanghaeclone.dangoon.entity.User;
 import com.hanghaeclone.dangoon.entity.Wish;
+import com.hanghaeclone.dangoon.repository.ImageRepository;
 import com.hanghaeclone.dangoon.repository.PostRepository;
 import com.hanghaeclone.dangoon.repository.UserRepository;
 import com.hanghaeclone.dangoon.repository.WishRepository;
 import com.hanghaeclone.dangoon.security.UserDetailsImpl;
+import com.hanghaeclone.dangoon.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,16 +31,29 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
     private final WishRepository wishRepository;
+    private final S3Uploader s3Uploader;
 
-    public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
+    @Transactional
+    public PostResponseDto createPost(PostRequestDto postRequestDto, List<MultipartFile> multipartFiles, User user) {
 
-        Post post = new Post(postRequestDto, user);
+        try {
 
-        postRepository.save(post);
+            Post post = new Post(postRequestDto, user);
 
-        return PostResponseDto.of(post);
+            for (MultipartFile file : multipartFiles) {
+                String imageUrl = s3Uploader.upload(file);
+                Image image = new Image(post, imageUrl);
+                imageRepository.save(image);
+                post.addImage(image);
+            }
+            postRepository.save(post);
+
+            return PostResponseDto.of(post);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public PostResponseDto getPost(Long id, UserDetailsImpl userDetails) {

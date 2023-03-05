@@ -20,13 +20,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users/signup")
-    public void signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
-        userService.signup(signupRequestDto);
+    public ResponseDto<String> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
+        return ResponseDto.success(userService.signup(signupRequestDto));
     }
 
     @PostMapping("/users/login")
-    public void login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
-        userService.login(loginRequestDto, response);
+    public ResponseDto<String> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
+        return ResponseDto.success(userService.login(loginRequestDto, response));
     }
 
     @GetMapping("/users/mypage")

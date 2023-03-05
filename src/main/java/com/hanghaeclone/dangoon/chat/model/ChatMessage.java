@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,4 +24,5 @@ public class ChatMessage {
     private String sender;
     //내용
     private String message;
+
 }

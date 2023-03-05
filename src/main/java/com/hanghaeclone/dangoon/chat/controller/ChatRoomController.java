@@ -1,12 +1,19 @@
 package com.hanghaeclone.dangoon.chat.controller;
 
 import com.hanghaeclone.dangoon.chat.model.ChatRoom;
+import com.hanghaeclone.dangoon.chat.model.ChatUser;
+import com.hanghaeclone.dangoon.chat.model.dto.ChatRoomResponseDto;
+import com.hanghaeclone.dangoon.chat.model.dto.ChatUserResponseDto;
 import com.hanghaeclone.dangoon.chat.service.ChatService;
+import com.hanghaeclone.dangoon.dto.ResponseDto;
+import com.hanghaeclone.dangoon.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,19 +29,26 @@ public class ChatRoomController {
     }
 
 
-    // 모든 채팅방 목록 반환
+//     유저의 채팅방 목록 반환
     @GetMapping("/rooms")
     @ResponseBody
-    public List<ChatRoom> room() {
-        return chatService.findAllRoom();
+    public ResponseDto<List<ChatUserResponseDto>> room(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<ChatUserResponseDto> chatUsers = chatService.findAllRoom(userDetails.getUser());
+        return ResponseDto.success(chatUsers);
     }
+
+//    @GetMapping("/rooms")
+//    @ResponseBody
+//    public List<ChatUser> room(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        return chatService.findAllRoom(userDetails.getUser());
+//    }
 
 
     // 채팅방 생성
-    @PostMapping("/room")
+    @PostMapping("/room/{postId}")
     @ResponseBody
-    public ChatRoom createRoom(@RequestParam String name) {
-        return chatService.createRoom(name);
+    public ResponseDto<String> createRoom(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseDto.success(chatService.createRoom(postId, userDetails.getUser()));
     }
 
 
@@ -49,7 +63,7 @@ public class ChatRoomController {
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
     @ResponseBody
-    public ChatRoom roomInfo(@PathVariable String roomId) {
-        return chatService.findById(roomId);
+    public ResponseDto<ChatRoomResponseDto> roomInfo(@PathVariable String roomId) {
+        return ResponseDto.success(chatService.getRoom(roomId));
     }
 }

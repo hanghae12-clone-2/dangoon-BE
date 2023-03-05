@@ -38,6 +38,7 @@
 <script src="/webjars/vue/2.5.16/dist/vue.min.js"></script>
 <script src="/webjars/axios/0.17.1/dist/axios.min.js"></script>
 <script>
+
   var vm = new Vue({
     el: '#app',
     data: {
@@ -50,7 +51,13 @@
     },
     methods: {
       findAllRoom: function() {
-        axios.get('/chat/rooms').then(response => { this.chatrooms = response.data; });
+        axios.get('/chat/rooms', {
+          headers: {
+            Authorization : 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MTIiLCJleHAiOjE2NzgwMjA1NTcsImlhdCI6MTY3ODAxNjk1N30.EcD_f2ngy1IAzowJLNFVyprg8rsC7VwRd8oHHP8j6DY'
+          },
+        }).then(response => {console.log(response); this.chatrooms = response.data.result;
+          console.log('chatrooms', this.chatrooms)
+        });
       },
       createRoom: function() {
         if("" === this.room_name) {

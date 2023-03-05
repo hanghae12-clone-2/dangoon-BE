@@ -1,7 +1,5 @@
 package com.hanghaeclone.dangoon.chat.controller;
 
-import com.hanghaeclone.dangoon.chat.model.ChatRoom;
-import com.hanghaeclone.dangoon.chat.model.ChatUser;
 import com.hanghaeclone.dangoon.chat.model.dto.ChatRoomResponseDto;
 import com.hanghaeclone.dangoon.chat.model.dto.ChatUserResponseDto;
 import com.hanghaeclone.dangoon.chat.service.ChatService;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -33,7 +30,7 @@ public class ChatRoomController {
     @GetMapping("/rooms")
     @ResponseBody
     public ResponseDto<List<ChatUserResponseDto>> room(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<ChatUserResponseDto> chatUsers = chatService.findAllRoom(userDetails.getUser());
+        List<ChatUserResponseDto> chatUsers = chatService.getRoomListByUser(userDetails.getUser());
         return ResponseDto.success(chatUsers);
     }
 

@@ -7,7 +7,6 @@ import com.hanghaeclone.dangoon.chat.model.dto.ChatRoomResponseDto;
 import com.hanghaeclone.dangoon.chat.model.dto.ChatUserResponseDto;
 import com.hanghaeclone.dangoon.chat.repository.ChatRoomRepository;
 import com.hanghaeclone.dangoon.chat.repository.ChatUserRepository;
-import com.hanghaeclone.dangoon.dto.ResponseDto;
 import com.hanghaeclone.dangoon.entity.Post;
 import com.hanghaeclone.dangoon.entity.User;
 import com.hanghaeclone.dangoon.repository.PostRepository;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -44,7 +42,7 @@ public class ChatService {
 //
 //        return dtoList;
 //    }
-    public List<ChatUserResponseDto> findAllRoom(User user) {
+    public List<ChatUserResponseDto> getRoomListByUser(User user) {
         List<ChatUser> chatUsers = chatUserRepository.findAllByUser(user);
         List<ChatUserResponseDto> dtoList = new ArrayList<>();
 

@@ -1,4 +1,4 @@
-package com.hanghaeclone.dangoon.chat.model;
+package com.hanghaeclone.dangoon.chat.entity;
 
 import com.hanghaeclone.dangoon.entity.User;
 import lombok.*;

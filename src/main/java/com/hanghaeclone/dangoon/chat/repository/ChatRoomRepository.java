@@ -1,6 +1,6 @@
 package com.hanghaeclone.dangoon.chat.repository;
 
-import com.hanghaeclone.dangoon.chat.model.ChatRoom;
+import com.hanghaeclone.dangoon.chat.entity.ChatRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

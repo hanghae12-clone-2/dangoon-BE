@@ -1,10 +1,10 @@
 package com.hanghaeclone.dangoon.chat.service;
 
 
-import com.hanghaeclone.dangoon.chat.model.ChatRoom;
-import com.hanghaeclone.dangoon.chat.model.ChatUser;
-import com.hanghaeclone.dangoon.chat.model.dto.ChatRoomResponseDto;
-import com.hanghaeclone.dangoon.chat.model.dto.ChatUserResponseDto;
+import com.hanghaeclone.dangoon.chat.entity.ChatRoom;
+import com.hanghaeclone.dangoon.chat.entity.ChatUser;
+import com.hanghaeclone.dangoon.chat.dto.ChatRoomResponseDto;
+import com.hanghaeclone.dangoon.chat.dto.ChatUserResponseDto;
 import com.hanghaeclone.dangoon.chat.repository.ChatRoomRepository;
 import com.hanghaeclone.dangoon.chat.repository.ChatUserRepository;
 import com.hanghaeclone.dangoon.entity.Post;

@@ -1,7 +1,6 @@
-package com.hanghaeclone.dangoon.chat.model.dto;
+package com.hanghaeclone.dangoon.chat.dto;
 
-import com.hanghaeclone.dangoon.chat.model.ChatMessageStorage;
-import com.hanghaeclone.dangoon.chat.model.ChatRoom;
+import com.hanghaeclone.dangoon.chat.entity.ChatRoom;
 import lombok.Builder;
 import lombok.Getter;
 

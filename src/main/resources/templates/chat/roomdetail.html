@@ -46,8 +46,9 @@
 <script>
   //alert(document.title);
   // websocket & stomp initialize
-  var sock = new SockJS("/ws/chat");
+  var sock = new SockJS("http://13.209.11.12/ws/chat");
   var ws = Stomp.over(sock);
+
   var reconnect = 0;
   // vue.js
   var vm = new Vue({
@@ -73,7 +74,7 @@
         this.message = '';
       },
       recvMessage: function(recv) {
-        this.messages.unshift({"type":recv.type,"sender":recv.type=='ENTER'?'[알림]':recv.sender,"message":recv.message})
+        this.messages.unshift({"type":recv.type,"sender":recv.type=='ENTER'?'[연결되었습니다.] 현재 시간 ':recv.sender,"message":recv.message})
         // this.messages.unshift({"type":recv.type,"sender":recv.sender,"message":recv.message})
       }
     }
@@ -91,7 +92,7 @@
       if(reconnect++ <= 5) {
         setTimeout(function() {
           console.log("connection reconnect");
-          sock = new SockJS("/ws/chat");
+          sock = new SockJS("http://13.209.11.12/ws/chat");
           ws = Stomp.over(sock);
           connect();
         },10*1000);

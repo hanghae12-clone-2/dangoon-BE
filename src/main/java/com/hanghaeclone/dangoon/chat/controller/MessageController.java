@@ -1,7 +1,7 @@
 package com.hanghaeclone.dangoon.chat.controller;
 
 
-import com.hanghaeclone.dangoon.chat.model.ChatMessage;
+import com.hanghaeclone.dangoon.chat.dto.ChatMessageRequestDto;
 import com.hanghaeclone.dangoon.chat.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,8 +18,8 @@ public class MessageController {
     private final ChatMessageService chatMessageService;
 
     @MessageMapping("/chat/message")
-    public void enter(ChatMessage message) {
-        if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
+    public void enter(ChatMessageRequestDto message) {
+        if (ChatMessageRequestDto.MessageType.ENTER.equals(message.getType())) {
 //            message.setMessage(message.getSender()+"님이 입장하였습니다.");
             message.setMessage(LocalDateTime.now().toString());
         }else {

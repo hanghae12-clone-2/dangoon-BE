@@ -1,5 +1,6 @@
-package com.hanghaeclone.dangoon.chat.model;
+package com.hanghaeclone.dangoon.chat.entity;
 
+import com.hanghaeclone.dangoon.chat.dto.ChatMessageRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ public class ChatMessageStorage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private ChatMessage.MessageType type;
+    private ChatMessageRequestDto.MessageType type;
     //채팅방 ID
     //보내는 사람
     private String sender;
@@ -26,7 +27,7 @@ public class ChatMessageStorage {
     @ManyToOne
     private ChatRoom chatRoom;
 
-    public static ChatMessageStorage of(ChatMessage message) {
+    public static ChatMessageStorage of(ChatMessageRequestDto message) {
         return ChatMessageStorage.builder()
                 .type(message.getType())
                 .sender(message.getSender())

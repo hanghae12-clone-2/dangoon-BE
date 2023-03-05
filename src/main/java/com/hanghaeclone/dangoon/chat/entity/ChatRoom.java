@@ -1,9 +1,6 @@
-package com.hanghaeclone.dangoon.chat.model;
+package com.hanghaeclone.dangoon.chat.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.hanghaeclone.dangoon.entity.Post;
 import lombok.*;
 

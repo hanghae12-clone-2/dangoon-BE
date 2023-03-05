@@ -1,7 +1,7 @@
 package com.hanghaeclone.dangoon.chat.controller;
 
-import com.hanghaeclone.dangoon.chat.model.dto.ChatRoomResponseDto;
-import com.hanghaeclone.dangoon.chat.model.dto.ChatUserResponseDto;
+import com.hanghaeclone.dangoon.chat.dto.ChatRoomResponseDto;
+import com.hanghaeclone.dangoon.chat.dto.ChatUserResponseDto;
 import com.hanghaeclone.dangoon.chat.service.ChatService;
 import com.hanghaeclone.dangoon.dto.ResponseDto;
 import com.hanghaeclone.dangoon.security.UserDetailsImpl;

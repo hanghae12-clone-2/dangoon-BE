@@ -1,6 +1,7 @@
 package com.hanghaeclone.dangoon.chat.entity;
 
 import com.hanghaeclone.dangoon.chat.dto.ChatMessageRequestDto;
+import com.hanghaeclone.dangoon.entity.TimeStamped;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatMessageStorage {
+public class ChatMessageStorage extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

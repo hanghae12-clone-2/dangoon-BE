@@ -38,7 +38,7 @@ public class UserService {
 //            return "이미 가입된 사용자입니다.";
         }
         Optional<User> foundNickname = userRepository.findByNickName(nickName);
-        if (foundUsername.isPresent()) {
+        if (foundNickname.isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
 //            return "이미 존재하는 닉네임입니다.";
         }

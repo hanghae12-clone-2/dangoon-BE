@@ -10,6 +10,7 @@ import com.hanghaeclone.dangoon.chat.repository.ChatUserRepository;
 import com.hanghaeclone.dangoon.entity.Post;
 import com.hanghaeclone.dangoon.entity.User;
 import com.hanghaeclone.dangoon.repository.PostRepository;
+import com.hanghaeclone.dangoon.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,9 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class ChatService {
+    private final UserRepository userRepository;
 
-//    private Map<String, ChatRoom> chatRooms;
+    //    private Map<String, ChatRoom> chatRooms;
     private final ChatRoomRepository chatRoomRepository;
     private final PostRepository postRepository;
     private final ChatUserRepository chatUserRepository;
@@ -60,8 +62,22 @@ public class ChatService {
     //채팅방 생성
     public String createRoom(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow( () -> new NullPointerException("게시글이 존재하지 않습니다."));
-        //게시글 제목으로 채팅방 생성
+
+//        ChatRoom chatRoom = chatRoomRepository.findByPost(post).orElseGet(() -> ChatRoom.create(post));
+
+        // 해당 포스팅으로 채팅한 채팅방이 이미 있으면 그 채팅방 id를 리턴.
+        Optional<ChatRoom> optionalChatRoom = chatRoomRepository.findByPost(post);
+        if (optionalChatRoom.isPresent()) {
+            return optionalChatRoom.get().getRoomId();
+        }
+
+        // 없으면
         ChatRoom chatRoom = ChatRoom.create(post);
+
+
+
+//        //게시글 제목으로 채팅방 생성
+//        ChatRoom chatRoom = ChatRoom.create(post);
         chatRoomRepository.save(chatRoom);
 
         //구매자와 판매자 ChatUser 테이블에 저장
@@ -73,7 +89,7 @@ public class ChatService {
         chatUserRepository.saveAll(chatUsers);
 
 
-        return "채팅방 생성 성공";
+        return chatRoom.getRoomId();
     }
 
     public ChatRoomResponseDto getRoom(String roomId) {

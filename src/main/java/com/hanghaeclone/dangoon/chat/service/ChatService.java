@@ -63,9 +63,15 @@ public class ChatService {
     public String createRoom(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow( () -> new NullPointerException("게시글이 존재하지 않습니다."));
 
-        Optional<ChatUser> chatuser = chatUserRepository.findByPostAndUser(post, user);
-        if (chatuser.isPresent()){
-            return chatuser.get().getChatRoom().getRoomId().toString();
+        //user가 post의 userid와 같으면 return 뭘하지
+        if (user.getId().equals(post.getUser().getId())){
+            return "자신에게 채팅할 수 없습니다.";
+        }
+
+
+        Optional<ChatUser> chatUser = chatUserRepository.findByPostAndUser(post, user);
+        if (chatUser.isPresent()){
+            return chatUser.get().getChatRoom().getRoomId().toString();
         }
 
         //없으면 채팅방 새로 만들기

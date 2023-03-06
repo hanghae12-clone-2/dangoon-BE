@@ -25,7 +25,6 @@ public class User {
     @Column(nullable = false, unique = true)
     private String nickName;
 
-    @ColumnDefault("36.5")
     @Column(nullable = false)
     private float temperature;
 
@@ -33,6 +32,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.nickName = nickName;
+        this.temperature = 36.5f;
     }
 
     public void subTemperature(){

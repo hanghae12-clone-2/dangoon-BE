@@ -63,17 +63,9 @@ public class ChatService {
     public String createRoom(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow( () -> new NullPointerException("게시글이 존재하지 않습니다."));
 
-        // 해당 포스팅으로 채팅한 채팅방이 있고, 유저가 겹치면 기존 채팅방 리턴
-        Optional<ChatRoom> optionalChatRoom = chatRoomRepository.findByPost(post);
-        if (optionalChatRoom.isPresent()) {
-            //user가 이 optionalChatRoom에 있는 유저인지 확인
-            List<ChatUser> chatUsers = chatUserRepository.findByChatRoom(optionalChatRoom.get());
-            for (ChatUser chatUser : chatUsers) {
-                if (chatUser.getUser().getId().equals(user.getId())){ // 이미 존재하는 유저이면
-
-                    return optionalChatRoom.get().getRoomId();
-                }
-            }
+        Optional<ChatUser> chatuser = chatUserRepository.findByPostAndUser(post, user);
+        if (chatuser.isPresent()){
+            return chatuser.get().getChatRoom().getRoomId().toString();
         }
 
         //없으면 채팅방 새로 만들기
@@ -85,8 +77,8 @@ public class ChatService {
         chatRoomRepository.save(chatRoom);
 
         //구매자와 판매자 ChatUser 테이블에 저장
-        ChatUser seller = ChatUser.create(post.getUser(), chatRoom);
-        ChatUser buyer = ChatUser.create(user, chatRoom);
+        ChatUser seller = ChatUser.create(post.getUser(), post, chatRoom);
+        ChatUser buyer = ChatUser.create(user, post, chatRoom);
         List<ChatUser> chatUsers = new ArrayList<>();
         chatUsers.add(seller);
         chatUsers.add(buyer);

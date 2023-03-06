@@ -1,5 +1,6 @@
 package com.hanghaeclone.dangoon.chat.entity;
 
+import com.hanghaeclone.dangoon.entity.Post;
 import com.hanghaeclone.dangoon.entity.User;
 import lombok.*;
 
@@ -20,11 +21,15 @@ public class ChatUser {
     private User user;
 
     @ManyToOne
+    private Post post;
+
+    @ManyToOne
     private ChatRoom chatRoom;
 
-    public static ChatUser create(User user, ChatRoom chatRoom) {
+    public static ChatUser create(User user, Post post, ChatRoom chatRoom) {
         return ChatUser.builder()
                 .user(user)
+                .post(post)
                 .chatRoom(chatRoom)
                 .build();
     }

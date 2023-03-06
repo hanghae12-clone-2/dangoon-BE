@@ -10,10 +10,13 @@ public class ChatMessageResponseDto {
     private String sender;
     private String message;
 
+    private String createdAt;
+
     public static ChatMessageResponseDto of(ChatMessageStorage storage) {
         return ChatMessageResponseDto.builder()
                 .sender(storage.getSender())
                 .message(storage.getMessage())
+                .createdAt(storage.getCreatedAt().toString())
                 .build();
     }
 }

@@ -99,9 +99,9 @@ public class PostService {
         Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Post> postPage;
-        String query = keyword.replaceAll(" ", "");
-        postPage = postRepository.findAllByTitleContainingOrLocationContaining(query, query, pageable);
-
+        String query = "%" + keyword.replaceAll(" ", "") + "%";
+//        postPage = postRepository.findAllByTitleContainingOrLocationContaining(query, query, pageable);
+        postPage = postRepository.findAllByTitleLikeOrLocationLike(query, query, pageable);
         List<PostResponseDto> dtoList = new ArrayList<>();
 
         for (Post post : postPage) {

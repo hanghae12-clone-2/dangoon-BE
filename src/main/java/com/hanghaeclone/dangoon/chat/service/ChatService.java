@@ -65,7 +65,7 @@ public class ChatService {
 
         //user가 post의 userid와 같으면 return 뭘하지
         if (user.getId().equals(post.getUser().getId())){
-            return "자신에게 채팅할 수 없습니다.";
+            throw new IllegalArgumentException("자신에게 채팅할 수 없습니다.");
         }
 
 

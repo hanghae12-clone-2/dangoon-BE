@@ -29,6 +29,11 @@ public class PostController {
         return ResponseDto.success(postService.getPost(postId, userDetails));
     }
 
+    @GetMapping("/posts/my")
+    public ResponseDto<List<PostResponseDto>> getPostListByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseDto.success(postService.getPostListByUser(userDetails.getUser()));
+    }
+
     @GetMapping("/posts")
     public ResponseDto<List<PostResponseDto>> getPostList(@RequestParam int page,
                                                           @RequestParam int size,

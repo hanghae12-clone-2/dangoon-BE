@@ -1,6 +1,8 @@
 package com.hanghaeclone.dangoon.service;
 
 
+import com.hanghaeclone.dangoon.dto.ResponseDto;
+import com.hanghaeclone.dangoon.dto.TemperatureResponseDto;
 import com.hanghaeclone.dangoon.entity.Post;
 import com.hanghaeclone.dangoon.entity.Temperature;
 import com.hanghaeclone.dangoon.repository.TemperatureRepository;
@@ -23,7 +25,7 @@ public class TemperatureService {
 
 //
     @Transactional
-    public Double likeUser(Long postId, User user) {
+    public TemperatureResponseDto likeUser(Long postId, User user) {
 
         Post post = postRepository.findById(postId).orElseThrow( () -> new NullPointerException("게시글 없음"));
         User targetUser = userRepository.findById(post.getUser().getId()).orElseThrow( () -> new NullPointerException("유저 없음"));
@@ -51,11 +53,12 @@ public class TemperatureService {
 //                return "싫어요 취소 후 좋아요";
             }
         }
-        return targetUser.getTemperature();
+//        return targetUser.getTemperature();
+        return TemperatureResponseDto.of(targetUser.getTemperature());
     }
 
     @Transactional
-    public String hateUser(Long postId, User user) {
+    public TemperatureResponseDto hateUser(Long postId, User user) {
 
         Post post = postRepository.findById(postId).orElseThrow( () -> new NullPointerException("게시글 없음"));
         User targetUser = userRepository.findById(post.getUser().getId()).orElseThrow( () -> new NullPointerException("유저 없음"));
@@ -83,8 +86,10 @@ public class TemperatureService {
 //                return "싫어요 취소";
             }
         }
-        return String.valueOf(targetUser.getTemperature());
+//        return String.valueOf(targetUser.getTemperature());
+        return TemperatureResponseDto.of(targetUser.getTemperature());
     }
+
 
     public String checkTemp(Optional<Temperature> optionalTemperature) {
         if(optionalTemperature.isEmpty()) {

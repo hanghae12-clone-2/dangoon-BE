@@ -26,7 +26,7 @@ public class User {
     private String nickName;
 
     @Column(nullable = false)
-    private float temperature;
+    private Double temperature;
 
     private Long kakaoId;
 
@@ -34,7 +34,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.nickName = nickName;
-        this.temperature = 36.5f;
+        this.temperature = 36.5;
     }
 
     public User(String nickName, Long kakaoId, String password, String email) {
@@ -42,6 +42,7 @@ public class User {
         this.nickName = nickName;
         this.kakaoId = kakaoId;
         this.username = email;
+        this.temperature = 36.5;
     }
 
     public User kakaoIdUpdate(Long kakaoId) {

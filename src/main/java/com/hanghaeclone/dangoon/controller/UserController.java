@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/users/kakao/callback")
-    public String kakaoCallback(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
+    public ResponseDto<String> kakaoCallback(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
         // code : 카카오 서버로부터 받은 인가 코드
         String createToken = kakaoService.kakaoLogin(code, response);
 
@@ -50,7 +50,7 @@ public class UserController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return "kakao callback";
+        return ResponseDto.success("로그인 완료");
     }
 
 }

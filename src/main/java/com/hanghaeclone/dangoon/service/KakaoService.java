@@ -21,6 +21,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -131,8 +132,17 @@ public class KakaoService {
 
                 // email: kakao email
                 String email = kakaoUserInfo.getEmail();
+                String nickName = kakaoUserInfo.getNicknmae();
 
-                kakaoUser = new User(kakaoUserInfo.getNicknmae(), kakaoId, encodedPassword, email);
+                Optional<User> user = userRepository.findByNickName(nickName);
+                if (user.isPresent()) {
+                    int i = 2;
+                    while (userRepository.findByNickName(nickName + i).isPresent()) {
+                        i++;
+                    }
+                    nickName += i;
+                }
+                kakaoUser = new User(nickName, kakaoId, encodedPassword, email);
             }
 
             userRepository.save(kakaoUser);

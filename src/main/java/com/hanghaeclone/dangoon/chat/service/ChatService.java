@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -94,10 +95,16 @@ public class ChatService {
         return chatRoom.getRoomId();
     }
 
-    public ChatRoomResponseDto getRoom(String roomId) {
+    @Transactional
+    public ChatRoomResponseDto getRoom(String roomId, User user) {
 
         ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId).orElseThrow( () -> new NullPointerException("채팅방이 존재하지 않습니다."));
+        ChatUser chatUser = chatUserRepository.findByChatRoomAndUser(chatRoom, user);
+        chatUser.initUnreadCount();
         return ChatRoomResponseDto.of(chatRoom);
 
     }
+
+
+
 }

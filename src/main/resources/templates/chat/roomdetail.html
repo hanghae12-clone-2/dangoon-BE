@@ -46,7 +46,7 @@
 <script>
   //alert(document.title);
   // websocket & stomp initialize
-  var sock = new SockJS("http://localhost:8080/ws/chat");
+  var sock = new SockJS("http://13.209.11.12/ws/chat");
   var ws = Stomp.over(sock);
 
   var reconnect = 0;
@@ -94,7 +94,7 @@
       if(reconnect++ <= 5) {
         setTimeout(function() {
           console.log("connection reconnect");
-          sock = new SockJS("http://localhost:8080/ws/chat");
+          sock = new SockJS("http://13.209.11.12/ws/chat");
           ws = Stomp.over(sock);
           connect();
         },10*1000);

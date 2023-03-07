@@ -28,11 +28,26 @@ public class User {
     @Column(nullable = false)
     private float temperature;
 
+    private Long kakaoId;
+    private String email;
+
     public User(String username, String password, String nickName) {
         this.username = username;
         this.password = password;
         this.nickName = nickName;
         this.temperature = 36.5f;
+    }
+
+    public User(String nickName, Long kakaoId, String password, String email) {
+        this.password = password;
+        this.nickName = nickName;
+        this.kakaoId = kakaoId;
+        this.email = email;
+    }
+
+    public User kakaoIdUpdate(Long kakaoId) {
+        this.kakaoId = kakaoId;
+        return this;
     }
 
     public void subTemperature(){

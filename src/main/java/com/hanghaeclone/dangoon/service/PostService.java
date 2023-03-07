@@ -3,14 +3,12 @@ package com.hanghaeclone.dangoon.service;
 import com.hanghaeclone.dangoon.dto.PostListResponseDto;
 import com.hanghaeclone.dangoon.dto.PostRequestDto;
 import com.hanghaeclone.dangoon.dto.PostResponseDto;
-import com.hanghaeclone.dangoon.dto.ResponseDto;
 import com.hanghaeclone.dangoon.entity.Image;
 import com.hanghaeclone.dangoon.entity.Post;
 import com.hanghaeclone.dangoon.entity.User;
 import com.hanghaeclone.dangoon.entity.Wish;
 import com.hanghaeclone.dangoon.repository.ImageRepository;
 import com.hanghaeclone.dangoon.repository.PostRepository;
-import com.hanghaeclone.dangoon.repository.UserRepository;
 import com.hanghaeclone.dangoon.repository.WishRepository;
 import com.hanghaeclone.dangoon.security.UserDetailsImpl;
 import com.hanghaeclone.dangoon.util.S3Uploader;
@@ -63,8 +61,8 @@ public class PostService {
     public PostResponseDto getPost(Long id, UserDetailsImpl userDetails) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("게시글 없음"));
         PostResponseDto dto = PostResponseDto.of(post);
-        if(userDetails != null) { //로그인 했을때 관심상품 여부 set
-            if(wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
+        if (userDetails != null) { //로그인 했을때 관심상품 여부 set
+            if (wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
                 dto.wish();
             }
         }
@@ -77,9 +75,9 @@ public class PostService {
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Post> postPage;
 
-        if(location.equals("all")) {
+        if (location.equals("all")) {
             postPage = postRepository.findAll(pageable);
-        }else {
+        } else {
             postPage = postRepository.findAllByLocation(location, pageable);
         }
 
@@ -126,10 +124,10 @@ public class PostService {
     public PostResponseDto updatePost(Long postId, PostRequestDto requestDto, User user) {
 
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글 없음"));
-        if(user.getUsername().equals(post.getUser().getUsername())) {
+        if (user.getUsername().equals(post.getUser().getUsername())) {
             post.update(requestDto);
             return PostResponseDto.of(post);
-        }else {
+        } else {
             throw new IllegalArgumentException("유저 불일치");
         }
 
@@ -149,10 +147,10 @@ public class PostService {
                     throw new RuntimeException(e);
                 }
             }
-
+            
             postRepository.deleteById(postId);
             return "삭제 완료";
-        }else {
+        } else {
             throw new IllegalArgumentException("유저 불일치");
         }
     }
@@ -164,7 +162,7 @@ public class PostService {
         );
 
         Optional<Wish> wish = wishRepository.findByUserAndPost(user, post);
-        if (wish.isPresent()){
+        if (wish.isPresent()) {
             wishRepository.delete(wish.get());
             post.subWishCount();
             return ("관심 상품 취소");
@@ -175,6 +173,18 @@ public class PostService {
         return ("관심 상품 등록");
 
 
+    }
 
+    public List<PostResponseDto> getPostListByUser(User user) {
+        List<Post> posts = postRepository.findAllByUser(user);
+        List<PostResponseDto> dtoList = new ArrayList<>();
+        for (Post post : posts) {
+            PostResponseDto dto = PostResponseDto.of(post);
+            if (wishRepository.findByUserAndPost(user, post).isPresent()) {
+                dto.wish();
+            }
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 }

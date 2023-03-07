@@ -1,5 +1,6 @@
 package com.hanghaeclone.dangoon.service;
 
+import com.hanghaeclone.dangoon.dto.PostListResponseDto;
 import com.hanghaeclone.dangoon.dto.PostRequestDto;
 import com.hanghaeclone.dangoon.dto.PostResponseDto;
 import com.hanghaeclone.dangoon.dto.ResponseDto;
@@ -22,7 +23,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +72,7 @@ public class PostService {
         return dto;
     }
 
-    public List<PostResponseDto> getPostList(int page, int size, String sortBy, String location, UserDetailsImpl userDetails) {
+    public List<PostListResponseDto> getPostList(int page, int size, String sortBy, String location, UserDetailsImpl userDetails) {
         Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Post> postPage;
@@ -79,10 +83,10 @@ public class PostService {
             postPage = postRepository.findAllByLocation(location, pageable);
         }
 
-        List<PostResponseDto> dtoList = new ArrayList<>();
+        List<PostListResponseDto> dtoList = new ArrayList<>();
 
         for (Post post : postPage) {
-            PostResponseDto dto = PostResponseDto.of(post);
+            PostListResponseDto dto = PostListResponseDto.of(post);
             if(userDetails != null) { //로그인 했을때 관심상품 여부 set
                 if(wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
                     dto.wish();
@@ -94,7 +98,7 @@ public class PostService {
         return dtoList;
     }
 
-    public List<PostResponseDto> searchPosts(int page, int size, String sortBy, String keyword, UserDetailsImpl userDetails) {
+    public List<PostListResponseDto> searchPosts(int page, int size, String sortBy, String keyword, UserDetailsImpl userDetails) {
 
         Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
@@ -102,10 +106,10 @@ public class PostService {
         String query = "%" + keyword.replaceAll(" ", "") + "%";
 //        postPage = postRepository.findAllByTitleContainingOrLocationContaining(query, query, pageable);
         postPage = postRepository.findAllByTitleLikeOrLocationLike(query, query, pageable);
-        List<PostResponseDto> dtoList = new ArrayList<>();
+        List<PostListResponseDto> dtoList = new ArrayList<>();
 
         for (Post post : postPage) {
-            PostResponseDto dto = PostResponseDto.of(post);
+            PostListResponseDto dto = PostListResponseDto.of(post);
             if(userDetails != null) { //로그인 했을때 관심상품 여부 set
                 if(wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
                     dto.wish();
@@ -135,6 +139,17 @@ public class PostService {
     public String deletePost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글 없음"));
         if(user.getUsername().equals(post.getUser().getUsername())) {
+            if(post.getImages().size()>0) {
+                try {
+                    for (Image image : post.getImages()) {
+                        String source = URLDecoder.decode(image.getImageUrl().replace("https://dangoon.s3.ap-northeast-2.amazonaws.com/", ""), "UTF-8");
+                        s3Uploader.delete(source);
+                    }
+                } catch(UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
             postRepository.deleteById(postId);
             return "삭제 완료";
         }else {

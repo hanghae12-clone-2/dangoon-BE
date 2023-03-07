@@ -23,7 +23,7 @@ public class TemperatureService {
 
 //
     @Transactional
-    public String likeUser(Long postId, User user) {
+    public Double likeUser(Long postId, User user) {
 
         Post post = postRepository.findById(postId).orElseThrow( () -> new NullPointerException("게시글 없음"));
         User targetUser = userRepository.findById(post.getUser().getId()).orElseThrow( () -> new NullPointerException("유저 없음"));
@@ -36,22 +36,22 @@ public class TemperatureService {
                 targetUser.addTempearture();
                 Temperature temperature = new Temperature(post, user, "like");
                 temperatureRepository.save(temperature);
-                return "좋아요 성공";
+//                return "좋아요 성공";
             }
             case "좋아요" -> {
                 targetUser.cancelAddTempearture();
                 temperatureRepository.delete(optionalTemperature.get());
-                return "좋아요 취소";
+//                return "좋아요 취소";
             }
             case "싫어요" -> {
                 targetUser.cancelSubTempearture();
                 targetUser.addTempearture();
                 Temperature temperature = optionalTemperature.get();
                 temperature.updateLike();
-                return "싫어요 취소 후 좋아요";
+//                return "싫어요 취소 후 좋아요";
             }
         }
-        return null;
+        return targetUser.getTemperature();
     }
 
     @Transactional
@@ -68,22 +68,22 @@ public class TemperatureService {
                 targetUser.subTemperature();
                 Temperature temperature = new Temperature(post, user, "hate");
                 temperatureRepository.save(temperature);
-                return "싫어요 성공";
+//                return "싫어요 성공";
             }
             case "좋아요" -> {
                 targetUser.cancelAddTempearture();
                 targetUser.subTemperature();
                 Temperature temperature = optionalTemperature.get();
                 temperature.updateHate();
-                return "좋아요 취소후 싫어요";
+//                return "좋아요 취소후 싫어요";
             }
             case "싫어요" -> {
                 targetUser.cancelSubTempearture();
                 temperatureRepository.delete(optionalTemperature.get());
-                return "싫어요 취소";
+//                return "싫어요 취소";
             }
         }
-        return null;
+        return String.valueOf(targetUser.getTemperature());
     }
 
     public String checkTemp(Optional<Temperature> optionalTemperature) {

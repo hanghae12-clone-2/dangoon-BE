@@ -15,7 +15,7 @@ public class TemperatureController {
     private final TemperatureService temperatureService;
 
     @PostMapping("/like/{postId}")
-    public ResponseDto<String> likeUser(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseDto<Double> likeUser(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return ResponseDto.success(temperatureService.likeUser(postId, userDetails.getUser()));
     }
 

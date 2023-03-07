@@ -14,6 +14,8 @@ public class ChatUserResponseDto {
     private String lastChat;
     private String location;
 
+    private int unreadMessageCount;
+
     public static ChatUserResponseDto of(ChatUser chatUser) {
         return ChatUserResponseDto.builder()
                 .roomId(chatUser.getChatRoom().getRoomId())
@@ -21,6 +23,7 @@ public class ChatUserResponseDto {
                 .imageUrl(chatUser.getChatRoom().getPost().getImages().get(0).getImageUrl()) // 첫번째 이미지 url
                 .lastChat(chatUser.getChatRoom().getChatMessageList().size() > 0 ? chatUser.getChatRoom().getChatMessageList().get(chatUser.getChatRoom().getChatMessageList().size()-1).getMessage() : "채팅 기록이 없습니다.")
                 .location(chatUser.getChatRoom().getPost().getLocation())
+                .unreadMessageCount(chatUser.getUnreadMessageCount())
                 .build();
     }
 

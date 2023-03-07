@@ -17,6 +17,8 @@ public class ChatUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer unreadMessageCount;
+
     @ManyToOne
     private User user;
 
@@ -31,6 +33,15 @@ public class ChatUser {
                 .user(user)
                 .post(post)
                 .chatRoom(chatRoom)
+                .unreadMessageCount(0)
                 .build();
+    }
+
+    public void addUnreadMessageCount() {
+        this.unreadMessageCount++;
+    }
+
+    public void initUnreadCount() {
+        this.unreadMessageCount = 0;
     }
 }

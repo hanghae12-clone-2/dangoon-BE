@@ -60,7 +60,7 @@ public class ChatRoomController {
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
     @ResponseBody
-    public ResponseDto<ChatRoomResponseDto> roomInfo(@PathVariable String roomId) {
-        return ResponseDto.success(chatService.getRoom(roomId));
+    public ResponseDto<ChatRoomResponseDto> roomInfo(@PathVariable String roomId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseDto.success(chatService.getRoom(roomId, userDetails.getUser()));
     }
 }

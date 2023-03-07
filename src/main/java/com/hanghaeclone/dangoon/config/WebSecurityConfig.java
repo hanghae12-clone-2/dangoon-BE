@@ -70,6 +70,7 @@ public class WebSecurityConfig {
         // 사전에 약속된 출처를 명시
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://localhost:3001");
+        config.addAllowedOrigin("http://hanghae77.s3-website.ap-northeast-2.amazonaws.com");
         //채팅 테스트용 origin
         config.addAllowedOrigin("http://localhost:8080");
 

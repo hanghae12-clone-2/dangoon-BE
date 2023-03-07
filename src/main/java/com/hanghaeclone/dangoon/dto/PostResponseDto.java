@@ -36,7 +36,7 @@ public class PostResponseDto {
                 .price(post.getPrice())
                 .nickname(post.getUser().getNickName())
                 .temperature(post.getUser().getTemperature())
-                .isWish(false)가
+                .isWish(false)
                 .wishCount(post.getWishCount())
                 .location(post.getLocation())
                 .createdAt(post.getCreatedAt().toString())

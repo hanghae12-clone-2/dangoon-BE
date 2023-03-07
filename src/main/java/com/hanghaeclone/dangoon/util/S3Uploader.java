@@ -2,6 +2,7 @@ package com.hanghaeclone.dangoon.util;
 
 
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,15 @@ public class S3Uploader {
             log.info("파일 삭제 성공");
         } else {
             log.info("파일 삭제 실패");
+        }
+    }
+
+    public void delete(String filename) {
+        try {
+            amazonS3Client.deleteObject(bucket, filename);
+            log.info("S3 파일 " + filename + " 삭제 성공");
+        } catch(AmazonS3Exception e) {
+            throw new IllegalArgumentException("S3 파일 삭제 실패");
         }
     }
 

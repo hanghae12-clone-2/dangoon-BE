@@ -11,14 +11,15 @@ import java.util.List;
 public class ChatRoomResponseDto {
     private String title;
     private int price;
+    private String partner;
     List<ChatMessageResponseDto> messageDtoList;
 
-    public static ChatRoomResponseDto of(ChatRoom chatRoom) {
+    public static ChatRoomResponseDto of(ChatRoom chatRoom, String partner) {
         return ChatRoomResponseDto.builder()
                 .title(chatRoom.getPost().getTitle())
                 .price(chatRoom.getPost().getPrice())
                 .messageDtoList(chatRoom.getChatMessageList().stream().map(ChatMessageResponseDto::of).toList())
-
+                .partner(partner)
                 .build();
     }
 }

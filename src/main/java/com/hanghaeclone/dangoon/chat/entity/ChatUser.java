@@ -19,6 +19,8 @@ public class ChatUser {
 
     private Integer unreadMessageCount;
 
+    private String partner;
+
     @ManyToOne
     private User user;
 
@@ -28,12 +30,13 @@ public class ChatUser {
     @ManyToOne
     private ChatRoom chatRoom;
 
-    public static ChatUser create(User user, Post post, ChatRoom chatRoom) {
+    public static ChatUser create(User user, Post post, ChatRoom chatRoom, String partner) {
         return ChatUser.builder()
                 .user(user)
                 .post(post)
                 .chatRoom(chatRoom)
                 .unreadMessageCount(0)
+                .partner(partner)
                 .build();
     }
 

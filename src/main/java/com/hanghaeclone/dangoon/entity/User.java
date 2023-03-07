@@ -26,13 +26,13 @@ public class User {
     private String nickName;
 
     @Column(nullable = false)
-    private float temperature;
+    private double temperature;
 
     public User(String username, String password, String nickName) {
         this.username = username;
         this.password = password;
         this.nickName = nickName;
-        this.temperature = 36.5f;
+        this.temperature = 36.5;
     }
 
     public void subTemperature(){

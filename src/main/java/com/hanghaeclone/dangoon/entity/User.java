@@ -40,6 +40,13 @@ public class User {
         this.temperature = 36.5;
     }
 
+    public User(String username, String password, String nickName) {
+        this.username = username;
+        this.password = password;
+        this.nickName = nickName;
+        this.temperature = 36.5;
+    }
+
     public User kakaoIdUpdate(Long kakaoId) {
         this.kakaoId = kakaoId;
         return this;

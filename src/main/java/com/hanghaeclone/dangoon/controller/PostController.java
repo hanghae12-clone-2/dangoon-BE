@@ -1,5 +1,6 @@
 package com.hanghaeclone.dangoon.controller;
 
+import com.hanghaeclone.dangoon.dto.PostListResponseDto;
 import com.hanghaeclone.dangoon.dto.PostRequestDto;
 import com.hanghaeclone.dangoon.dto.PostResponseDto;
 import com.hanghaeclone.dangoon.dto.ResponseDto;
@@ -35,11 +36,11 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public ResponseDto<List<PostResponseDto>> getPostList(@RequestParam int page,
-                                                          @RequestParam int size,
-                                                          @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-                                                          @RequestParam(required = false, defaultValue = "all") String location,
-                                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseDto<List<PostListResponseDto>> getPostList(@RequestParam int page,
+                                                              @RequestParam int size,
+                                                              @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+                                                              @RequestParam(required = false, defaultValue = "all") String location,
+                                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return ResponseDto.success(postService.getPostList(page-1, size, sortBy, location, userDetails));
     }
@@ -55,7 +56,7 @@ public class PostController {
     }
 
     @GetMapping("/search/posts")
-    public ResponseDto<List<PostResponseDto>> searchPosts(@RequestParam int page,
+    public ResponseDto<List<PostListResponseDto>> searchPosts(@RequestParam int page,
                                                           @RequestParam int size,
                                                           @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
                                                           @RequestParam(required = false) String keyword,

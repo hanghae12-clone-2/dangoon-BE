@@ -20,6 +20,7 @@ public class PostResponseDto {
     private String content;
     private int price;
     private String nickname;
+    private double temperature;
     private int wishCount;
     private Boolean isWish;
     private String location;
@@ -34,6 +35,7 @@ public class PostResponseDto {
                 .content(post.getContent())
                 .price(post.getPrice())
                 .nickname(post.getUser().getNickName())
+                .temperature(post.getUser().getTemperature())
                 .isWish(false)
                 .wishCount(post.getWishCount())
                 .location(post.getLocation())

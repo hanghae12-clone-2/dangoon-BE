@@ -30,19 +30,17 @@ public class UserController {
     }
 
     @PostMapping("/users/login")
-//    public ResponseDto<String> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
-//        return ResponseDto.success(userService.login(loginRequestDto, response));
-//    }
-    public String login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
-        return "login.html";
+    public ResponseDto<String> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
+        return ResponseDto.success(userService.login(loginRequestDto, response));
     }
+
 
     @GetMapping("/users/mypage")
     public ResponseDto<UserResponseDto> getUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return ResponseDto.success(userService.getUser(userDetails));
     }
 
-    @GetMapping("users/kakao/callback")
+    @GetMapping("/users/kakao/callback")
     public String kakaoCallback(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
         // code : 카카오 서버로부터 받은 인가 코드
         String createToken = kakaoService.kakaoLogin(code, response);

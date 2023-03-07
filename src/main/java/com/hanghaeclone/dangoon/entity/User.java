@@ -29,7 +29,6 @@ public class User {
     private float temperature;
 
     private Long kakaoId;
-    private String email;
 
     public User(String username, String password, String nickName) {
         this.username = username;
@@ -42,7 +41,7 @@ public class User {
         this.password = password;
         this.nickName = nickName;
         this.kakaoId = kakaoId;
-        this.email = email;
+        this.username = email;
     }
 
     public User kakaoIdUpdate(Long kakaoId) {

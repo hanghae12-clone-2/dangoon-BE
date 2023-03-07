@@ -30,7 +30,7 @@ public class User {
 
     private Long kakaoId;
 
-    }
+
 
     public User(String nickName, Long kakaoId, String password, String email) {
         this.password = password;

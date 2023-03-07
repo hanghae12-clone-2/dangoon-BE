@@ -175,11 +175,11 @@ public class PostService {
 
     }
 
-    public List<PostResponseDto> getPostListByUser(User user) {
+    public List<PostListResponseDto> getPostListByUser(User user) {
         List<Post> posts = postRepository.findAllByUser(user);
-        List<PostResponseDto> dtoList = new ArrayList<>();
+        List<PostListResponseDto> dtoList = new ArrayList<>();
         for (Post post : posts) {
-            PostResponseDto dto = PostResponseDto.of(post);
+            PostListResponseDto dto = PostListResponseDto.of(post);
             if (wishRepository.findByUserAndPost(user, post).isPresent()) {
                 dto.wish();
             }

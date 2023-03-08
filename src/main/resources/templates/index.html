@@ -15,7 +15,7 @@
 <body>
 <div id="login-form">
   <div id="login-title">Log into Select Shop</div>
-  <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=5fbf9787ca4fd31840bf9567df5f354d&redirect_uri=http://localhost:8080/api/users/kakao/callback&response_type=code'">
+  <button id="login-kakao-btn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=' + kakaoApiKey + '&redirect_uri=http://localhost:8080/api/users/kakao/callback&response_type=code'">
     카카오로 로그인하기
   </button>
   <button id="login-id-btn" onclick="location.href='/api/user/signup'">
@@ -73,6 +73,9 @@
       }
     })
   }
-
+  var kakaoApiKey = '';
+  fetch('/api/getApiKey')
+          .then(response => response.json())
+          .then(data => kakaoApiKey = data.KAKAO_API_KEY);
 </script>
 </html>

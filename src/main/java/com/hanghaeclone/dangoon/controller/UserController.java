@@ -13,6 +13,7 @@ import com.hanghaeclone.dangoon.security.UserDetailsImpl;
 import com.hanghaeclone.dangoon.service.KakaoService;
 import com.hanghaeclone.dangoon.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +52,14 @@ public class UserController {
         response.addCookie(cookie);
 
         return ResponseDto.success("로그인 완료");
+    }
+
+    @Value("${KAKAO_API_KEY}")
+    private String kakaoApiKey;
+
+    @GetMapping("/getApiKey")
+    public String getApiKey() {
+        return "{\"KAKAO_API_KEY\": \"" + kakaoApiKey + "\"}";
     }
 
 }

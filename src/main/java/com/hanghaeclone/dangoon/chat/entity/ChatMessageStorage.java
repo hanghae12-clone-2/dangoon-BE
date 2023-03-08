@@ -24,7 +24,6 @@ public class ChatMessageStorage extends TimeStamped {
     private String sender;
     //내용
     private String message;
-
     @ManyToOne
     private ChatRoom chatRoom;
 

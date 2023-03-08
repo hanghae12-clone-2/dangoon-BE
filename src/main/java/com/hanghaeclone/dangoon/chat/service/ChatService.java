@@ -37,6 +37,7 @@ public class ChatService {
     }
 
     //채팅방 생성
+    @Transactional
     public String createRoom(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow( () -> new NullPointerException("게시글이 존재하지 않습니다."));
 
@@ -66,6 +67,9 @@ public class ChatService {
         chatUsers.add(seller);
         chatUsers.add(buyer);
         chatUserRepository.saveAll(chatUsers);
+
+        //게시글 채팅수 +1
+        post.addChatCount();
 
 
         return chatRoom.getRoomId();

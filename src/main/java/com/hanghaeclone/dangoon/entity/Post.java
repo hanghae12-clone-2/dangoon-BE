@@ -26,6 +26,9 @@ public class Post extends TimeStamped{
     private int price;
 
     @Column(nullable = false)
+    private int chatCount;
+
+    @Column(nullable = false)
     private int wishCount;
 
     @Column(nullable = false)
@@ -50,6 +53,10 @@ public class Post extends TimeStamped{
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
         this.price = requestDto.getPrice();
+    }
+
+    public void addChatCount() {
+        this.chatCount++;
     }
 
     public void subWishCount(){

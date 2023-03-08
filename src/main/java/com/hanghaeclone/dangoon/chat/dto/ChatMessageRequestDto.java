@@ -23,4 +23,6 @@ public class ChatMessageRequestDto {
     //내용
     private String message;
 
+    private String createdAt;
+
 }

@@ -25,6 +25,7 @@ public class MessageController {
         }else {
             chatMessageService.createChat(message);
         }
+        message.setCreatedAt(LocalDateTime.now().toString());
         sendingOperations.convertAndSend("/topic/chat/room/"+message.getRoomId(),message);
     }
 }

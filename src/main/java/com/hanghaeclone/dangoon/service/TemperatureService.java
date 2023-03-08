@@ -54,7 +54,8 @@ public class TemperatureService {
             }
         }
 //        return targetUser.getTemperature();
-        return TemperatureResponseDto.of(targetUser.getTemperature());
+        String temperature = String.format("%.1f", targetUser.getTemperature());
+        return TemperatureResponseDto.of(temperature);
     }
 
     @Transactional
@@ -87,7 +88,8 @@ public class TemperatureService {
             }
         }
 //        return String.valueOf(targetUser.getTemperature());
-        return TemperatureResponseDto.of(targetUser.getTemperature());
+        String temperature = String.format("%.1f", targetUser.getTemperature());
+        return TemperatureResponseDto.of(temperature);
     }
 
 

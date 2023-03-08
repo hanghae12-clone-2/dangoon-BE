@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TemperatureResponseDto {
-    private Double temperature;
+    private String temperature;
 
-    public static TemperatureResponseDto of(Double temperature){
+    public static TemperatureResponseDto of(String temperature){
         return TemperatureResponseDto.builder()
                 .temperature(temperature)
                 .build();

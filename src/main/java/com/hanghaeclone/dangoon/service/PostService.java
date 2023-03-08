@@ -133,7 +133,7 @@ public class PostService {
 
             List<String> remainingImages = requestDto.getRemainingImagesUrlList();
 
-            if(remainingImages.isEmpty() && (multipartFiles.isEmpty() || multipartFiles.get(0).isEmpty())) {
+            if (remainingImages.isEmpty() && (multipartFiles.isEmpty() || multipartFiles.get(0).isEmpty())) {
                 throw new IllegalArgumentException("최소 한 장의 사진이 필요합니다.");
             }
 
@@ -153,7 +153,8 @@ public class PostService {
             }
 
             try {
-                if (!multipartFiles.isEmpty() && !multipartFiles.get(0).isEmpty()) {
+                if(multipartFiles != null)
+                    if (!multipartFiles.isEmpty() && !multipartFiles.get(0).isEmpty()) {
                     for (MultipartFile file : multipartFiles) {
                         String imageUrl = s3Uploader.upload(file);
                         Image image = new Image(post, imageUrl);
@@ -164,6 +165,8 @@ public class PostService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
+
 
             return PostResponseDto.of(post);
         } else {

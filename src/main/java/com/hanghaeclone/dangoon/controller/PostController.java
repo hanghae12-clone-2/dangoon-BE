@@ -1,9 +1,6 @@
 package com.hanghaeclone.dangoon.controller;
 
-import com.hanghaeclone.dangoon.dto.PostListResponseDto;
-import com.hanghaeclone.dangoon.dto.PostRequestDto;
-import com.hanghaeclone.dangoon.dto.PostResponseDto;
-import com.hanghaeclone.dangoon.dto.ResponseDto;
+import com.hanghaeclone.dangoon.dto.*;
 import com.hanghaeclone.dangoon.security.UserDetailsImpl;
 import com.hanghaeclone.dangoon.service.PostService;
 import io.swagger.annotations.ApiParam;
@@ -46,8 +43,11 @@ public class PostController {
     }
 
     @PutMapping("/posts/{postId}")
-    public ResponseDto<PostResponseDto> updatePost(@PathVariable Long postId, PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return ResponseDto.success(postService.updatePost(postId, requestDto, userDetails.getUser()));
+    public ResponseDto<PostResponseDto> updatePost(@PathVariable Long postId,
+                                                   @RequestPart PostUpdateRequestDto postUpdateRequestDto,
+                                                   @RequestPart(required = false) List<MultipartFile> multipartFiles,
+                                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseDto.success(postService.updatePost(postId, postUpdateRequestDto, multipartFiles, userDetails.getUser()));
     }
 
     @DeleteMapping("/posts/{postId}")

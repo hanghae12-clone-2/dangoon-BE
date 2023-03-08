@@ -1,6 +1,7 @@
 package com.hanghaeclone.dangoon.entity;
 
 import com.hanghaeclone.dangoon.dto.PostRequestDto;
+import com.hanghaeclone.dangoon.dto.PostUpdateRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -49,10 +50,11 @@ public class Post extends TimeStamped{
         this.user = user;
     }
 
-    public void update(PostRequestDto requestDto) {
+    public void update(PostUpdateRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
         this.price = requestDto.getPrice();
+        this.location = requestDto.getLocation();
     }
 
     public void addChatCount() {

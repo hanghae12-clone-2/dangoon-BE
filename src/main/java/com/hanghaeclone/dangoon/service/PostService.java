@@ -3,6 +3,7 @@ package com.hanghaeclone.dangoon.service;
 import com.hanghaeclone.dangoon.dto.PostListResponseDto;
 import com.hanghaeclone.dangoon.dto.PostRequestDto;
 import com.hanghaeclone.dangoon.dto.PostResponseDto;
+import com.hanghaeclone.dangoon.dto.PostUpdateRequestDto;
 import com.hanghaeclone.dangoon.entity.Image;
 import com.hanghaeclone.dangoon.entity.Post;
 import com.hanghaeclone.dangoon.entity.User;
@@ -13,6 +14,7 @@ import com.hanghaeclone.dangoon.repository.WishRepository;
 import com.hanghaeclone.dangoon.security.UserDetailsImpl;
 import com.hanghaeclone.dangoon.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -50,11 +53,12 @@ public class PostService {
                 imageRepository.save(image);
                 post.addImage(image);
             }
+
             postRepository.save(post);
 
             return PostResponseDto.of(post);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException("최소 한 장의 사진을 업로드해야 합니다.");
         }
     }
 
@@ -85,8 +89,8 @@ public class PostService {
 
         for (Post post : postPage) {
             PostListResponseDto dto = PostListResponseDto.of(post);
-            if(userDetails != null) { //로그인 했을때 관심상품 여부 set
-                if(wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
+            if (userDetails != null) { //로그인 했을때 관심상품 여부 set
+                if (wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
                     dto.wish();
                 }
             }
@@ -108,8 +112,8 @@ public class PostService {
 
         for (Post post : postPage) {
             PostListResponseDto dto = PostListResponseDto.of(post);
-            if(userDetails != null) { //로그인 했을때 관심상품 여부 set
-                if(wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
+            if (userDetails != null) { //로그인 했을때 관심상품 여부 set
+                if (wishRepository.findByUserAndPost(userDetails.getUser(), post).isPresent()) {
                     dto.wish();
                 }
             }
@@ -121,11 +125,46 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto updatePost(Long postId, PostRequestDto requestDto, User user) {
+    public PostResponseDto updatePost(Long postId, PostUpdateRequestDto requestDto, List<MultipartFile> multipartFiles, User user) {
 
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글 없음"));
         if (user.getUsername().equals(post.getUser().getUsername())) {
             post.update(requestDto);
+
+            List<String> remainingImages = requestDto.getRemainingImagesUrlList();
+
+            if(remainingImages.isEmpty() && multipartFiles.get(0).isEmpty()) {
+                throw new IllegalArgumentException("최소 한 장의 사진이 필요합니다.");
+            }
+
+            List<Image> images = imageRepository.findImagesByPostId(postId);
+
+            try { // 기존에 업로드한 이미지가 갱신된 판매글에 없을경우 이미지를 S3에서 제거하고 DB에서도 삭제
+                for (Image image : images) {
+                    if (!remainingImages.contains(image.getImageUrl())) {
+                        post.getImages().remove(image);
+                        String source = URLDecoder.decode(image.getImageUrl().replace("https://dangoon.s3.ap-northeast-2.amazonaws.com/", ""), "UTF-8");
+                        s3Uploader.delete(source);
+                        imageRepository.delete(image);
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+
+            try {
+                if (!multipartFiles.get(0).isEmpty()) {
+                    for (MultipartFile file : multipartFiles) {
+                        String imageUrl = s3Uploader.upload(file);
+                        Image image = new Image(post, imageUrl);
+                        imageRepository.save(image);
+                        post.addImage(image);
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
             return PostResponseDto.of(post);
         } else {
             throw new IllegalArgumentException("유저 불일치");
@@ -136,18 +175,18 @@ public class PostService {
     @Transactional
     public String deletePost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글 없음"));
-        if(user.getUsername().equals(post.getUser().getUsername())) {
-            if(post.getImages().size()>0) {
+        if (user.getUsername().equals(post.getUser().getUsername())) {
+            if (post.getImages().size() > 0) {
                 try {
                     for (Image image : post.getImages()) {
                         String source = URLDecoder.decode(image.getImageUrl().replace("https://dangoon.s3.ap-northeast-2.amazonaws.com/", ""), "UTF-8");
                         s3Uploader.delete(source);
                     }
-                } catch(UnsupportedEncodingException e) {
+                } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
                 }
             }
-            
+
             postRepository.deleteById(postId);
             return "삭제 완료";
         } else {

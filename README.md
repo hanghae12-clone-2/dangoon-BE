@@ -1,6 +1,7 @@
 ### 당근마켓 클론 코딩 - 단군마켓
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2da70a2f-635b-413d-8020-d8f650645f04/Untitled.png)
+![단군마켓](https://user-images.githubusercontent.com/51226340/223760078-70f65846-8f3d-44fd-899e-947fb61e9d7d.png)
+
 
 ## 단군마켓 배포 링크
 
@@ -125,6 +126,6 @@ https://github.com/hanghae12-clone-2/dangoon-BE.git
 
 ## 📋 ERD Diagram
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3acc326c-4a50-4bd1-86d2-f507500a1038/Untitled.png)
+![image](https://user-images.githubusercontent.com/51226340/223760157-6ae8eec8-5ca1-4d70-977b-837ba7994dd7.png)
 
 ## 📝 Technologies & Tools (BE) 📝

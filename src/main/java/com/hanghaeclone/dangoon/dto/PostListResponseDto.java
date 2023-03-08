@@ -20,6 +20,7 @@ public class PostListResponseDto {
     private int price;
     private String nickname;
     private int wishCount;
+    private int chatCount;
     private Boolean isWish;
     private String location;
 
@@ -35,6 +36,7 @@ public class PostListResponseDto {
                 .nickname(post.getUser().getNickName())
                 .isWish(false)
                 .wishCount(post.getWishCount())
+                .chatCount(post.getChatCount())
                 .location(post.getLocation())
                 .createdAt(post.getCreatedAt().toString())
                 .thumbnailUrl(post.getImages().get(0).getImageUrl())

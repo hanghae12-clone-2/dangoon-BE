@@ -22,6 +22,7 @@ public class PostResponseDto {
     private String nickname;
     private double temperature;
     private int wishCount;
+    private int chatCount;
     private Boolean isWish;
     private String location;
 
@@ -38,6 +39,7 @@ public class PostResponseDto {
                 .temperature(post.getUser().getTemperature())
                 .isWish(false)
                 .wishCount(post.getWishCount())
+                .chatCount(post.getChatCount())
                 .location(post.getLocation())
                 .createdAt(post.getCreatedAt().toString())
                 .imageUrlList(post.getImages().stream().map(image -> image.getImageUrl()).toList())

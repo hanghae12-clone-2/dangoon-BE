@@ -27,11 +27,14 @@ public class ChatMessageStorage extends TimeStamped {
     @ManyToOne
     private ChatRoom chatRoom;
 
+    private String image;
+
     public static ChatMessageStorage of(ChatMessageRequestDto message) {
         return ChatMessageStorage.builder()
                 .type(message.getType())
                 .sender(message.getSender())
                 .message(message.getMessage())
+                .image(message.getImage())
                 .build();
     }
 }

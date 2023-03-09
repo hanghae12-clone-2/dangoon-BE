@@ -67,19 +67,19 @@ https://github.com/hanghae12-clone-2/dangoon-BE.git
 
 ## FE적용 기술
 
-### ◻ 기술명
+### ◻ React-Query
 
-> 설명
+> axios 통신을 관리 하기 위해 사용했습니다.
 > 
 
-### ◻ 기술명
+### ◻ Router
 
-> 설명
+> 컴포넌트 페이지 전환을 위해 사용했습니다.
 > 
 
-### ◻ 기술명
+### ◻ sockjs-client
 
-> 설명
+> 백엔드 서버의 stomp와 연동 하기 위해 sockjs를 사용했습니다.
 > 
 
 ## BE적용 기술
@@ -110,10 +110,8 @@ https://github.com/hanghae12-clone-2/dangoon-BE.git
 
 ## 🚨 Trouble Shooting FE
 
-- 1
-- 2
-- 3
-- 4
+- 1 실시간 채팅에서 채팅 리스트 클릭 시 읽지 않은 메세지 초기화 되지 않는 문제 (쿼리키를 무효화 해서 해결)
+- 2 채팅에 이미지 업로드 시 파일이 전송되지 않는 문제 파일 용량 트러블 (이미지를 압축후 base64로 인코딩해서 문자열로 서버로 전달)
 
 ## 🚨 Trouble Shooting BE
 

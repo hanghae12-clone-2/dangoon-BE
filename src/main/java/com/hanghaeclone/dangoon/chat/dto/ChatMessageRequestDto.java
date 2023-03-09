@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -22,7 +23,10 @@ public class ChatMessageRequestDto {
     private String sender;
     //내용
     private String message;
-
     private String createdAt;
+    private String image;
+
+    private MultipartFile file;
+
 
 }

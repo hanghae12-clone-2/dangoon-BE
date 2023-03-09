@@ -57,9 +57,9 @@ public class UserController {
     @Value("${KAKAO_API_KEY}")
     private String kakaoApiKey;
 
-    @GetMapping("/getApiKey")
-    public String getApiKey() {
-        return "{\"KAKAO_API_KEY\": \"" + kakaoApiKey + "\"}";
+    @GetMapping("/kakao-key")
+    public ResponseDto<String> getApiKey() {
+        return ResponseDto.success(kakaoApiKey);
     }
 
 }

@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -50,6 +52,11 @@ public class UserController {
         Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, createToken);
         cookie.setPath("/");
         response.addCookie(cookie);
+        try {
+            response.sendRedirect("http://hanghae77.s3-website.ap-northeast-2.amazonaws.com/");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         return ResponseDto.success("로그인 완료");
     }
